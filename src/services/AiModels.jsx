@@ -1,43 +1,27 @@
-// To run this code you need to install the following dependency:
-// npm install google-genai
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY; // in .env: REACT_APP_GEMINI_API_KEY=your_real_key
 
-import { Client, types } from "google-genai";
+export async function getGeminiResponse(prompt) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
 
-async function generate() {
-  const client = new Client({
-    apiKey: process.env.GEMINI_API_KEY,
+  const res = await fetch(`${url}?key=${API_KEY}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [{ text: prompt }],
+        },
+      ],
+    }),
   });
 
-  const model = "gemini-2.5-pro";
-  const contents = [
-    new types.Content({
-      role: "user",
-      parts: [types.Part.fromText("INSERT_INPUT_HERE")],
-    }),
-  ];
-
-  const tools = [
-    new types.Tool({
-      googleSearch: new types.GoogleSearch({}),
-    }),
-  ];
-
-  const generateContentConfig = new types.GenerateContentConfig({
-    thinkingConfig: new types.ThinkingConfig({
-      thinkingBudget: -1,
-    }),
-    tools,
-  });
-
-  const stream = client.models.generateContentStream({
-    model,
-    contents,
-    config: generateContentConfig,
-  });
-
-  for await (const chunk of stream) {
-    process.stdout.write(chunk.text);
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} - ${res.statusText}`);
   }
-}
 
-generate().catch(console.error);
+  const data = await res.json();
+  console.log("Gemini Response:", data);
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}

@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { getGeminiResponse } from "../services/AiModels";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../services/FirebaseConfig";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/Components/ui/button.jsx";
 import { toast } from "sonner";
@@ -22,6 +27,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 function TripForm() {
   const [formData, setformData] = useState({});
   const [OpenDialoge, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmision = (name, value) => {
     setformData({
@@ -30,9 +36,7 @@ function TripForm() {
     });
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  useEffect(() => {}, [formData]);
 
   const getUserProfile = (tokenInfo) => {
     axios
@@ -65,7 +69,7 @@ function TripForm() {
     onError: (error) => console.log(error),
   });
 
-  const handleGenrateTrip = () => {
+  const handleGenrateTrip = async () => {
     const user = localStorage.getItem("user");
     if (!user) {
       console.log("no user");
@@ -81,6 +85,7 @@ function TripForm() {
       toast("Please Fill All The Fields!");
       return;
     }
+    setLoading(true);
     const Final_Prompt = AI_PROMPT.replace("{location}", formData?.dest)
       .replace("{noOfDays}", formData?.noOfDays)
       .replace("{traveler}", formData?.traveler)
@@ -88,7 +93,27 @@ function TripForm() {
       .replace("{noOfDays}", formData?.noOfDays);
 
     console.log(Final_Prompt);
+
+    const reply = await getGeminiResponse(Final_Prompt);
+
+    console.log(reply);
+    setLoading(false);
+    saveTrip(reply);
   };
+
+  const saveTrip = async (TripData) => {
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const docId = Date.now().toString();
+    await setDoc(doc(db, "AI-TRIP", docId), {
+      userSelection: formData,
+      tripData: JSON.parse(TripData),
+      useremail: user?.email,
+      id: docId,
+    });
+    setLoading(false);
+  };
+
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">
       <h1 className="font-bold text-3xl">
@@ -168,8 +193,16 @@ function TripForm() {
           </div>
 
           <div className="mt-10 mb-10 justify-end flex">
-            <Button variant="default" onClick={handleGenrateTrip}>
-              Generate Trip
+            <Button
+              disabled={loading}
+              variant="default"
+              onClick={handleGenrateTrip}
+            >
+              {loading ? (
+                <AiOutlineLoading3Quarters className="h-7 w-7 animate-spin" />
+              ) : (
+                "Generate Trip"
+              )}
             </Button>
           </div>
 
