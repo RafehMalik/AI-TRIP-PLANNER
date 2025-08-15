@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import TripForm from "./Components/TripForm.jsx";
 import Layout from "./Layout.jsx";
 import { createRoot } from "react-dom/client";
+import ViewTrip from "./view_trip/ViewTrip.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "create-trip",
         element: <TripForm />,
+      },
+      {
+        path: "viewtrip/:id",
+        element: <ViewTrip />,
       },
     ],
   },

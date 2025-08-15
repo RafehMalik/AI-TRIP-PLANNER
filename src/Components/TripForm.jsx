@@ -23,11 +23,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router";
 
 function TripForm() {
   const [formData, setformData] = useState({});
   const [OpenDialoge, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmision = (name, value) => {
     setformData({
@@ -105,6 +107,7 @@ function TripForm() {
     setLoading(true);
     const user = JSON.parse(localStorage.getItem("user"));
     const docId = Date.now().toString();
+
     await setDoc(doc(db, "AI-TRIP", docId), {
       userSelection: formData,
       tripData: JSON.parse(TripData),
@@ -112,6 +115,7 @@ function TripForm() {
       id: docId,
     });
     setLoading(false);
+    navigate("/viewtrip/" + docId);
   };
 
   return (

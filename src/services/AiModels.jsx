@@ -23,5 +23,9 @@ export async function getGeminiResponse(prompt) {
 
   const data = await res.json();
   console.log("Gemini Response:", data);
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  return text
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
 }
