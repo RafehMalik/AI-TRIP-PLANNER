@@ -74,7 +74,6 @@ function TripForm() {
   const handleGenrateTrip = async () => {
     const user = localStorage.getItem("user");
     if (!user) {
-      console.log("no user");
       setOpenDialog(true);
       return;
     }
