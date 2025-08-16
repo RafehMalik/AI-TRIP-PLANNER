@@ -1,15 +1,21 @@
 import React from "react";
 import { IoSend } from "react-icons/io5";
 import { Button } from "./ui/button";
+import PlaceImage from "../services/PlaceImage.jsx";
 
 function Information({ trip }) {
+  const query = {
+    query: trip?.userSelection?.dest,
+    styling: "w-full object-cover rounded-xl h-[340px]",
+  };
   return (
     <div className="">
-      <img
+      {/* <img
         src="/image.png"
         alt="image"
         className="w-full object-cover rounded-xl h-[340px]"
-      />
+      /> */}
+      <PlaceImage query={query} />
       <div className="flex justify-between items-center">
         <div className="my-5 flex flex-col gap-2">
           <h2 className="font-bold mt-4 text-2xl">

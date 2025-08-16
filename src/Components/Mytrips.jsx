@@ -26,10 +26,12 @@ function Mytrips() {
       where("useremail", "==", user?.email)
     );
     const querySnapshot = await getDocs(q);
+    const trips = [];
     querySnapshot.forEach((doc) => {
-      // console.log(doc.id, " => ", doc.data());
-      setUserTrips((prevval) => [...prevval, doc.data()]);
+      trips.push({ ...doc.data() });
     });
+
+    setUserTrips(trips);
   };
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 px-5 mt-10">

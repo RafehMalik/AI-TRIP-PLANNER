@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PlaceImage from "../../services/PlaceImage.jsx";
 
 function HistoryTripCard({ trip }) {
+  const query = {
+    query: trip?.userSelection?.dest,
+  };
   return (
     <Link to={"/viewtrip/" + trip?.id}>
       <div className="cursor-pointer hover:scale-105 transition-all">
-        <img src="/image.png" alt="Trip" className=" rounded-sm object-cover" />
+        <PlaceImage query={trip?.userSelection?.dest} />
         <div>
           <h2 className="font-bold text-lg">
             {trip?.userSelection?.dest || "No destination"}

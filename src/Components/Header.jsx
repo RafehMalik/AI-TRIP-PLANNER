@@ -68,11 +68,17 @@ function Header() {
       <img src="/logo.svg" alt="" className="h-8 w-35 my-2" /> <br />
       {user ? (
         <div className="gap-3 flex items-center">
+          <Link to={"/create-trip"}>
+            <Button variant="outline" className="rounded-full">
+              Create Trips
+            </Button>
+          </Link>
           <Link to={"/mytrips"}>
             <Button variant="outline" className="rounded-full">
               My Trips
             </Button>
           </Link>
+
           <Popover>
             <PopoverTrigger>
               {" "}
