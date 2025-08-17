@@ -66,52 +66,53 @@ function Header() {
   return (
     <div className="flex justify-between p-3 shadow-2xs">
       <img src="/logo.svg" alt="" className="h-8 w-35 my-2" /> <br />
-      {user ? (
-        <div className="gap-3 flex items-center">
-          <Link to={"/create-trip"}>
-            <Button variant="outline" className="rounded-full">
-              Create Trips
-            </Button>
-          </Link>
-          <Link to={"/mytrips"}>
-            <Button variant="outline" className="rounded-full">
-              My Trips
-            </Button>
-          </Link>
+      <div className="gap-3 flex items-center">
+        <Link to={"/create-trip"}>
+          <Button variant="outline" className="rounded-full">
+            Create Trips
+          </Button>
+        </Link>
+        {user ? (
+          <>
+            <Link to="/mytrips">
+              <Button variant="outline" className="rounded-full">
+                My Trips
+              </Button>
+            </Link>
 
-          <Popover>
-            <PopoverTrigger>
-              {" "}
-              <img
-                className="rounded-full h-9 w-9"
-                src={user?.picture}
-                alt=""
-              />
-            </PopoverTrigger>
-            <PopoverContent>
-              <h2
-                className="cursor-pointer"
-                onClick={() => {
-                  googleLogout();
-                  localStorage.clear();
-                  window.location.reload();
-                }}
-              >
-                Logout
-              </h2>
-            </PopoverContent>
-          </Popover>
-        </div>
-      ) : (
-        <Button variant="default" className="my-2 h-8 " onClick={handleLogin}>
-          Sign IN
-        </Button>
-      )}
+            <Popover>
+              <PopoverTrigger>
+                <img
+                  className="rounded-full h-9 w-9"
+                  src={user?.picture}
+                  alt="profile"
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <h2
+                  className="cursor-pointer"
+                  onClick={() => {
+                    googleLogout();
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                >
+                  Logout
+                </h2>
+              </PopoverContent>
+            </Popover>
+          </>
+        ) : (
+          <Button variant="default" className="my-2 h-8" onClick={handleLogin}>
+            Sign In
+          </Button>
+        )}
+      </div>
       <Dialog open={OpenDialoge}>
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
-              <img src="/logo.svg" alt="" />
+              <img src="/logo.svg" alt="" className="h-10 w-full" />
               <h2 className="text-lg font-bold mt-7">Sign In With Google</h2>
               <p>Sign In To The App With Google Authentication Securely</p>
               <Button onClick={login} variant="default" className="w-full mt-7">

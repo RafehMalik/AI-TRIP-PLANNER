@@ -5,11 +5,12 @@ import PlaceImage from "../../services/PlaceImage.jsx";
 function HistoryTripCard({ trip }) {
   const query = {
     query: trip?.userSelection?.dest,
+    styling: "rounded-lg h-50 w-50 ",
   };
   return (
     <Link to={"/viewtrip/" + trip?.id}>
       <div className="cursor-pointer hover:scale-105 transition-all">
-        <PlaceImage query={trip?.userSelection?.dest} />
+        <PlaceImage query={query} />
         <div>
           <h2 className="font-bold text-lg">
             {trip?.userSelection?.dest || "No destination"}
