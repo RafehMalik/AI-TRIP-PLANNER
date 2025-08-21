@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog.jsx";
 import { googleLogout } from "@react-oauth/google";
 import { useState } from "react";
 import { Link } from "react-router";
