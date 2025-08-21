@@ -4,7 +4,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../services/FirebaseConfig";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/Components/ui/input.jsx";
 import { Button } from "@/Components/ui/button.jsx";
 import { toast } from "sonner";
 import axios from "axios";
