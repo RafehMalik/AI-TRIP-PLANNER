@@ -21,7 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog.jsx";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router";
 
